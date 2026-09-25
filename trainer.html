@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔒 دليل المدرّب — رحلة الابتكار (اليوم الأول)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="config/env.php"></script>
+<style>
+  :root {
+    --bg:           #0b1220;
+    --bg-soft:      #111a2e;
+    --bg-elev:      #18223a;
+    --bg-elev-2:    #1f2b48;
+    --ink:          #e8edf7;
+    --ink-soft:     #b6c0d6;
+    --ink-mute:     #7d8aa6;
+    --border:       #24304d;
+    --border-soft:  #1c2742;
+    --teal:         #2dd4bf;
+    --teal-soft:    rgba(45,212,191,.14);
+    --purple:       #a78bfa;
+    --purple-soft:  rgba(167,139,250,.14);
+    --amber:        #fbbf24;
+    --amber-soft:   rgba(251,191,36,.14);
+    --red:          #f87171;
+    --red-soft:     rgba(248,113,113,.14);
+    --green:        #34d399;
+    --green-soft:   rgba(52,211,153,.14);
+    --blue:         #60a5fa;
+    --blue-soft:    rgba(96,165,250,.14);
+    --gray:         #94a3b8;
+    --gray-soft:    rgba(148,163,184,.14);
+    --shadow:       0 10px 30px rgba(0,0,0,.4);
+    --shadow-lg:    0 30px 80px rgba(0,0,0,.55);
+    --radius:       14px;
+    --radius-sm:    10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(800px 400px at 80% 0%, rgba(45,212,191,.06), transparent 50%),
+      radial-gradient(600px 400px at 10% 100%, rgba(167,139,250,.06), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input { font-family: inherit; }
+  a { color: var(--teal); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ========== LOCK SCREEN ========== */
+  .lock-wrap {
+    min-height: 100vh;
+    display: grid; place-items: center;
+    padding: 20px;
+    position: relative; z-index: 1;
+  }
+  .lock-card {
+    width: 100%; max-width: 440px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow-lg);
+    padding: 40px 36px;
+    text-align: center;
+  }
+  .lock-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber), #d97706);
+    display: grid; place-items: center;
+    margin: 0 auto 18px;
+    font-size: 30px;
+    box-shadow: 0 0 0 8px var(--amber-soft);
+  }
+  .lock-title {
+    font-size: 24px; font-weight: 900;
+    margin-bottom: 6px;
+  }
+  .lock-sub {
+    font-size: 13.5px; color: var(--ink-soft);
+    margin-bottom: 26px;
+  }
+  .lock-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-soft);
+    color: var(--ink);
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .lock-input:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px var(--teal-soft);
+  }
+  .lock-btn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--teal), #0d9488);
+    color: #04221e;
+    border-radius: 10px;
+    font-size: 15px; font-weight: 800;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .lock-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(45,212,191,.32);
+  }
+  .lock-error {
+    color: var(--red);
+    font-size: 13px;
+    margin-top: 12px;
+    min-height: 18px;
+  }
+  .lock-hint {
+    font-size: 11.5px;
+    color: var(--ink-mute);
+    margin-top: 16px;
+    line-height: 1.7;
+  }
+  .lock-hint code {
+    background: var(--bg-soft);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--teal);
+  }
+
+  /* ========== APP CHROME ========== */
+  .app { display: none; position: relative; z-index: 1; }
+  .app.active { display: block; }
+
+  .topbar {
+    position: sticky; top: 0;
+    background: rgba(11,18,32,.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+    padding: 12px 22px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 15px;
+  }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--amber), var(--red));
+    display: grid; place-items: center;
+    font-size: 16px;
+  }
+  .brand-tag {
+    padding: 2px 8px;
+    background: var(--red-soft);
+    color: var(--red);
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .topbar-spacer { flex: 1; }
+  .topbtn {
+    padding: 7px 12px; border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--ink-soft);
+    font-size: 13px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: all .2s ease;
+  }
+  .topbtn:hover { color: var(--ink); border-color: var(--teal); }
+  .topbtn.danger:hover { color: var(--red); border-color: var(--red); }
+
+  /* ========== TIMELINE STRIP ========== */
+  .timeline-strip {
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 22px;
+    overflow-x: auto;
+  }
+  .timeline-track {
+    display: flex; gap: 8px;
+    min-width: max-content;
+  }
+  .tl-pill {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    min-width: 92px;
+    cursor: pointer;
+    transition: all .18s ease;
+    text-align: center;
+  }
+  .tl-pill:hover { border-color: var(--teal); }
+  .tl-pill.active {
+    background: linear-gradient(135deg, var(--teal), #0d9488);
+    color: #04221e;
+    border-color: transparent;
+    box-shadow: 0 6px 18px rgba(45,212,191,.3);
+  }
+  .tl-pill .tl-num { font-size: 10.5px; font-weight: 700; opacity: .75; }
+  .tl-pill.active .tl-num { color: #04221e; opacity: .85; }
+  .tl-pill .tl-time { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; margin: 2px 0; }
+  .tl-pill .tl-mins { font-size: 10.5px; color: var(--ink-mute); }
+  .tl-pill.active .tl-mins { color: #04221e; opacity: .8; }
+
+  /* ========== MAIN LAYOUT ========== */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  .col-script { min-width: 0; }
+  .col-notes  {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: sticky; top: 144px;
+    max-height: calc(100vh - 168px);
+    overflow-y: auto;
+    transition: transform .25s ease, opacity .25s ease;
+  }
+  .col-notes.hidden {
+    transform: translateX(-30px);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .main.notes-hidden {
+    grid-template-columns: 1fr;
+  }
+  .main.notes-hidden .col-notes { display: none; }
+
+  /* ========== SCRIPT CARD ========== */
+  .scripts { display: flex; flex-direction: column; gap: 20px; }
+  .scard {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    scroll-margin-top: 160px;
+  }
+  .scard.is-current {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 1px var(--teal), 0 18px 40px rgba(45,212,191,.12);
+  }
+  .scard-head {
+    background: var(--bg-elev);
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .scard-num {
+    background: var(--ink);
+    color: var(--bg);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 13px;
+  }
+  .scard.is-current .scard-num {
+    background: linear-gradient(135deg, var(--teal), #0d9488);
+    color: #04221e;
+  }
+  .scard-title {
+    font-size: 17px; font-weight: 800;
+    flex: 1;
+    min-width: 200px;
+  }
+  .scard-time {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .scard-tot {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    background: var(--purple-soft); color: var(--purple);
+  }
+  .scard-body { padding: 20px 22px 22px; }
+
+  .sec {
+    margin-top: 18px;
+  }
+  .sec:first-child { margin-top: 0; }
+  .sec-h {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--ink-mute);
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    background: var(--bg-elev);
+    border-radius: 8px;
+  }
+  .sec-h.say    { color: var(--teal); }
+  .sec-h.do     { color: var(--amber); }
+  .sec-h.watch  { color: var(--purple); }
+  .sec-h.tips   { color: var(--green); }
+  .sec-h.signal { color: var(--blue); }
+  .sec-h.warn   { color: var(--red); }
+  .sec-h.actions{ color: var(--amber); }
+
+  .quote {
+    border-inline-end: 3px solid var(--teal);
+    background: var(--teal-soft);
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.85;
+  }
+  .quote + .quote { margin-top: 10px; }
+  .quote .cue {
+    display: block;
+    font-size: 11.5px;
+    color: var(--purple);
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: .02em;
+  }
+  ul.do-list, ul.watch-list, ul.tips-list {
+    list-style: none;
+    display: flex; flex-direction: column;
+    gap: 8px;
+  }
+  ul.do-list li, ul.watch-list li, ul.tips-list li {
+    background: var(--bg-elev);
+    border-radius: 8px;
+    padding: 9px 14px;
+    padding-inline-start: 34px;
+    position: relative;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  ul.do-list li::before {
+    content: '●';
+    position: absolute; inset-inline-start: 14px;
+    top: 9px;
+    color: var(--amber);
+  }
+  ul.watch-list li::before {
+    content: '👁';
+    position: absolute; inset-inline-start: 12px;
+    top: 8px;
+    font-size: 12px;
+  }
+  ul.tips-list li::before {
+    content: '💡';
+    position: absolute; inset-inline-start: 12px;
+    top: 8px;
+    font-size: 12px;
+  }
+  .actions-box, .warn-box {
+    background: var(--bg-elev);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.9;
+    white-space: pre-wrap;
+    color: var(--ink-soft);
+    border-inline-end: 3px solid var(--amber);
+  }
+  .warn-box {
+    background: var(--red-soft);
+    border-color: var(--red);
+    color: var(--ink);
+  }
+  .signal-line {
+    background: var(--blue-soft);
+    border-inline-end: 3px solid var(--blue);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .browser-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 8px;
+    transition: all .15s ease;
+  }
+  .browser-link:hover {
+    background: var(--teal);
+    color: #04221e;
+    text-decoration: none;
+  }
+
+  .qa-list {
+    list-style: none;
+    counter-reset: qa;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  .qa-list li {
+    counter-increment: qa;
+    background: var(--bg-elev);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .qa-q { font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+  .qa-q::before { content: 'Q' counter(qa) '. '; color: var(--teal); font-weight: 800; }
+  .qa-a {
+    list-style: none;
+    display: flex; flex-direction: column;
+    gap: 4px;
+    padding-inline-start: 14px;
+  }
+  .qa-a li { padding: 4px 0; font-size: 13px; color: var(--ink-soft); }
+  .qa-a li.correct { color: var(--green); font-weight: 600; }
+  .qa-a li.correct::before { content: '✓ '; }
+  .qa-a li.wrong::before   { content: '✗ '; color: var(--red); }
+
+  .timing-detail {
+    background: var(--bg-elev);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.85;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* ========== NOTES SIDEBAR ========== */
+  .notes-h {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 800;
+    color: var(--amber);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .notes-body { font-size: 13.5px; color: var(--ink-soft); line-height: 1.85; }
+  .notes-body h4 {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+    padding-inline-start: 8px;
+    border-inline-start: 3px solid var(--teal);
+  }
+  .notes-body p { margin-bottom: 10px; }
+  .notes-body code {
+    background: var(--bg-elev);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--teal);
+  }
+
+  /* ========== TROUBLESHOOTING / FOLLOWUP / RESOURCES ========== */
+  .extras { padding: 0 22px 60px; max-width: 1500px; margin: 0 auto; }
+  .extras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .extra-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+  }
+  .extra-h {
+    font-size: 16px; font-weight: 800;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ts-row {
+    background: var(--bg-elev);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .ts-row .pb { color: var(--red); font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .ts-row .sl { color: var(--green); font-size: 13px; }
+  .fu-stage {
+    background: var(--bg-elev);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+  .fu-stage h5 {
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .fu-stage ul { list-style: none; }
+  .fu-stage li {
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 3px 0;
+    padding-inline-start: 18px;
+    position: relative;
+  }
+  .fu-stage li::before {
+    content: '☐';
+    position: absolute;
+    inset-inline-start: 0;
+    color: var(--ink-mute);
+  }
+  .res-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 12px;
+    background: var(--bg-elev);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .res-row .res-l { color: var(--ink); font-weight: 600; }
+  .res-row a { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; }
+
+  /* ========== MOBILE ========== */
+  @media (max-width: 1100px) {
+    .main { grid-template-columns: 1fr; }
+    .col-notes { position: static; max-height: none; }
+  }
+  @media (max-width: 640px) {
+    .topbar { padding: 10px 14px; }
+    .brand { font-size: 13px; }
+    .topbtn { padding: 6px 9px; font-size: 12px; }
+    .topbtn .lbl-full { display: none; }
+    .main { padding: 14px; }
+    .scard-body { padding: 16px; }
+    .extras { padding: 0 14px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LOCK SCREEN ============ -->
+<div class="lock-wrap" id="lockWrap">
+  <div class="lock-card">
+    <div class="lock-icon">🔐</div>
+    <div class="lock-title">دليل المعلم — الكواليس الخفية</div>
+    <div class="lock-sub">هذه الصفحة سريّة وللمدرّب فقط · أدخل كلمة المرور للمتابعة</div>
+    <form id="lockForm" autocomplete="off">
+      <input
+        class="lock-input"
+        id="lockInput"
+        type="password"
+        placeholder="••••••••••••"
+        autofocus
+        required>
+      <button type="submit" class="lock-btn">فتح الدليل ←</button>
+      <div class="lock-error" id="lockError"></div>
+    </form>
+    <div class="lock-hint">
+      كلمة المرور الافتراضية: <code>innovation2026</code><br>
+      لتغييرها افتح الكود وعدّل المتغير <code>TRAINER_PASSWORD</code> (أو استخدم متغيّر بيئة عند النشر على Hostinger).
+    </div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="app" id="app">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🎬</div>
+      <span>الكواليس الخفية</span>
+      <span class="brand-tag">سري · للمدرّب</span>
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="topbtn" id="toggleNotesBtn" title="إخفاء/إظهار الملاحظات">
+      <span>📝</span>
+      <span class="lbl-full">الملاحظات</span>
+    </button>
+    <button class="topbtn" id="printBtn" title="طباعة الدليل كامل">
+      <span>🖨️</span>
+      <span class="lbl-full">طباعة</span>
+    </button>
+    <button class="topbtn danger" id="lockBtn" title="قفل الصفحة">
+      <span>🔒</span>
+      <span class="lbl-full">قفل</span>
+    </button>
+  </header>
+
+  <!-- Timeline strip -->
+  <div class="timeline-strip">
+    <div class="timeline-track" id="timelineTrack"></div>
+  </div>
+
+  <!-- Main: scripts + side notes -->
+  <main class="main" id="mainGrid">
+    <div class="col-script">
+      <div class="scripts" id="scriptsMount"></div>
+    </div>
+    <aside class="col-notes" id="notesPanel">
+      <div class="notes-h">📝 ملاحظات الشريحة الحالية</div>
+      <div class="notes-body" id="notesBody">
+        <p style="color: var(--ink-mute);">انقر على أيّ شريحة في الخط الزمني أو مرّر إليها لعرض ملاحظاتها هنا.</p>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Extras: troubleshooting, followup, resources -->
+  <section class="extras">
+    <div class="extras-grid">
+
+      <div class="extra-card">
+        <div class="extra-h">🛠️ استكشاف الأخطاء</div>
+        <div id="troubleshootingMount"></div>
+      </div>
+
+      <div class="extra-card">
+        <div class="extra-h">📅 خطة المتابعة</div>
+        <div id="followupMount"></div>
+      </div>
+
+      <div class="extra-card">
+        <div class="extra-h">🔗 الروابط المرجعية</div>
+        <div id="resourcesMount"></div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* =====================================================
+   PASSWORD — change this!
+   ===================================================== */
+const TRAINER_PASSWORD = (window.ENV && window.ENV.TRAINER_PASSWORD) || 'innovation2026';
+
+/* =====================================================
+   TRAINER DATA — اليوم الأول: العقلية (من حقيبة رحلة الابتكار)
+   ===================================================== */
+const TRAINER = {
+  meta: {
+    course: 'رحلة الابتكار — اليوم الأول: العقلية',
+    instructor: 'محمد بن أحمد الحضرمي'
+  },
+
+  /* ===== SCRIPTS — one entry per slide ===== */
+  scripts: [
+    {
+      n: 1, time: '00:00–02:00', mins: 'دقيقتان',
+      title: 'الغلاف — استقبال وخارطة الرحلة',
+      tot: 'استقبال دافئ — استهلال',
+      say: [
+        { cue: '[ابتسامة صادقة · تواصل بصري · بدن مفتوح]',
+          text: 'بسم الله الرحمن الرحيم، والحمد لله رب العالمين، والصلاة والسلام على أشرف المرسلين.\n\nالسلام عليكم ورحمة الله وبركاته، وأهلاً وسهلاً بكم جميعاً. أنا محمد بن أحمد الحضرمي، وسيكون من دواعي سروري أن أرافقكم اليوم في أول محطة من رحلة طويلة اسمها "رحلة الابتكار".' },
+        { cue: '[أشر للخارطة على الشاشة]',
+          text: 'هذه الرحلة ست محطات: العقلية، الفكرة، الإبداع، الاختراع، الابتكار، والأثر. اليوم — وفقط اليوم — سنقف عند المحطة الأولى: العقلية. لأن كل محطة قادمة ستُبنى على ما نزرعه هنا.' }
+      ],
+      do: [
+        'قف أمام الشاشة ببدن مفتوح ولا تقرأ من ورقة',
+        'أشر بيدك لكل محطة من الست وأنت تذكرها',
+        'انتظر حتى يستقر الجميع قبل الانتقال'
+      ],
+      watch: [
+        'مستوى الانتباه الأولي — هل العيون على الشاشة أم مشتّتة؟',
+        'هل يبدو أحدهم متردداً في جدوى الحضور؟ → طمئنه بجملة "ستخرج اليوم بأداة تستخدمها فوراً"'
+      ],
+      tips: [
+        '💡 لا تشرح المحطات الست بالتفصيل الآن — فقط اذكرها واعبر. التفصيل يأتي حصراً في محطة العقلية'
+      ],
+      signal: 'لكن قبل أن ندخل العقلية — تمرين صغير أريد منكم فعله الآن...',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>التدرّج اللفظي</strong> في ذكر المحطات الست بالترتيب: العقلية → الفكرة → الإبداع → الاختراع → الابتكار → الأثر — كرّرها بنفس الترتيب دائماً طوال اليوم لترسيخها.</p>
+        <h4>الهدف من هذه الشريحة</h4>
+        <p>لا تحاول إثبات شيء في أول دقيقتين — فقط ابنِ الثقة وعدّ بشيء واحد محدد: أداة عملية يخرجون بها اليوم.</p>
+        <h4>إذا تأخر مشاركون</h4>
+        <p>لا توقف نفسك. رحّب باختصار بمن يدخل متأخراً دون كسر إيقاعك.</p>
+      `
+    },
+    {
+      n: 2, time: '02:00–03:30', mins: '90 ثانية',
+      title: 'اليوم الأول: العقلية — الأهداف',
+      tot: 'تأطير الأهداف', totColor: 'teal',
+      say: [
+        { text: 'اليوم سنفعل ثلاثة أشياء فقط: أولاً سنكتشف معاً ما هي العقلية أصلاً وكيف تعمل. ثانياً سنقارن أربع عقليات مختلفة نلتقيها كل يوم. وثالثاً سنتدرّب على خمسة أنماط تفكير تصنع عقلية مبتكرة فعلاً — لا نظرياً.' }
+      ],
+      do: [
+        'اذكر الأهداف الثلاثة بالترتيب وأشر لكل بطاقة',
+        'لا تُطل — هذه شريحة عبور سريع'
+      ],
+      signal: 'ولنبدأ بتمرين بسيط يكشف لكل واحد منكم كيف يفكر فعلاً الآن...',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الترادف الخفيف في الأفعال</strong>: "نكتشف / نقارن / نتدرّب" — ثلاثية متوازية تُشعر المتدرب بمسار واضح الخطوات.</p>
+        <h4>الجسر</h4>
+        <p>لا تفسّر "العقلية" هنا بعد — اتركها معلّقة ليكتشفها المتدرب بنفسه في التمرين القادم.</p>
+      `
+    },
+    {
+      n: 3, time: '03:30–05:30', mins: 'دقيقتان',
+      title: 'كسر الجليد — عقليتي في ثلاث كلمات',
+      tot: 'كسر الحواجز', totColor: 'pink',
+      say: [
+        { cue: '[نبرة ودودة وخفيفة]', text: 'أريد منكم الآن تمريناً سريعاً جداً — لا صحيح ولا خطأ فيه. فكّروا ثلاثين ثانية: إذا واجهتكم مشكلة صعبة، ما أول ثلاث كلمات تصف كيف تتعامل ذهنياً معها؟' },
+        { cue: '[بعد 30 ثانية صمت حقيقي]', text: 'والآن التفتوا لمن بجانبكم وشاركوه كلماتكم الثلاث. أربعون ثانية فقط.' },
+        { cue: '[بعد المشاركة الثنائية]', text: 'من يشاركنا بصوت مرتفع؟' }
+      ],
+      do: [
+        'التزم بالصمت الفعلي أثناء الثلاثين ثانية — لا تملأه بكلامك',
+        'تجوّل ببطء أثناء المشاركة الثنائية',
+        'دوّن ذهنياً كلمتين أو ثلاثاً سمعتها بصوت عالٍ لاستخدامها لاحقاً'
+      ],
+      watch: [
+        'هل تتكرر كلمات مثل "أستسلم" أو "أتوتر"؟ → إشارة لعقلية ثابتة سائدة، اربطها لاحقاً بشريحة 10',
+        'هل تتكرر كلمات مثل "أحاول" أو "أفكر"؟ → إشارة لعقلية نمو، اربطها بشريحة 9'
+      ],
+      tips: [
+        '💡 لا تُصنّف إجابات أحد علناً الآن بأنها "ثابتة" أو "نمو" — فقط استمع واحفظ للربط لاحقاً'
+      ],
+      signal: 'ملاحظة رائعة — احتفظوا بكلماتكم الثلاث، فسنعود إليها آخر اليوم لنرى هل تغيّرت',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الاستفهام البلاغي الضمني</strong>: التمرين نفسه سؤال غير مُجاب — "كيف تفكر؟" — يُترك معلّقاً ليخلق فضولاً حقيقياً للتعريف القادم.</p>
+        <h4>لماذا هذا مهم</h4>
+        <p>هذا ليس كسر جليد اجتماعياً عابراً — إنه أول لحظة وعي ذاتي في اليوم. احتفظ بالكلمات التي سمعتها لتستخدمها كأمثلة حية لاحقاً بدل الأمثلة الافتراضية فقط.</p>
+      `
+    },
+    {
+      n: 4, time: '05:30–09:30', mins: '4 دقائق',
+      title: 'المثير + نشاط نبض',
+      tot: 'القنبلة + جمع الأفكار', totColor: 'amber',
+      say: [
+        { cue: '[اعرض الصورة بصمت 3 ثوانٍ قبل الكلام]', text: 'انظروا لهذه الصورة جيداً. طابور مزدحم عند بوابة المدرسة — موقف يعيشه أغلبكم كل صباح تقريباً. طالبان، في نفس الطابور، أمام نفس الازدحام بالضبط. لكن ردّ فعلهما مختلف كليّاً: الأول واقف مكتوف الأيدين منزعجاً، والثاني يشير ويخطط في دفتره.' },
+        { cue: '[أشر للـ QR على الشاشة]', text: 'ما الذي يجعل نفس الموقف بالضبط يُنتج ردّي فعل مختلفين تماماً؟ افتحوا كاميرا هاتفكم، امسحوا الرمز، واكتبوا إجابتكم على نبض في جملة واحدة.' },
+        { cue: '[بعد جمع عدد كافٍ من الإجابات — أظهر النتائج الحية على الشاشة الرئيسية]', text: 'إجابات ممتازة — انظروا معي للنتائج وهي تتجمّع أمامنا مباشرة.' }
+      ],
+      actions: `1. افتح شاشة نبض (نتائج نشاط 7ba7z5) على العرض الرئيسي قبل بدء الشريحة
+2. أعطِ 90 ثانية للمشاركة عبر مسح رمز QR من الهواتف قبل قراءة أي إجابة بصوت مرتفع
+3. اقرأ 2-3 إجابات لافتة من شاشة النتائج الحية مع الثناء على كل واحدة`,
+      watch: [
+        'هل تتكرر كلمة "تفكير" أو "نظرة" في الإجابات؟ → هذا يقارب تعريف العقلية، استثمره في الجسر',
+        'هل ثمة من يكتب إجابة سطحية (مثل "الحظ")؟ → لا تصحّح علناً، فقط انتقل واترك الشريحة التالية تجيب ضمنياً'
+      ],
+      tips: [
+        '💡 لا تكشف كلمة "العقلية" في هذه الشريحة إطلاقاً — اتركها للشريحة القادمة كإجابة منتظرة',
+        '💡 استثمر واقعية المشهد: "كم مرة وقفتم في هذا الطابور بالضبط؟" — سؤال يجعل الصورة شخصية لا نظرية'
+      ],
+      signal: 'إجاباتكم قريبة جداً من الحقيقة — والآن دعونا نسمّي هذا الشيء الذي تحدثتم عنه دون أن تعرفوا اسمه...',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>استراتيجية القنبلة الكلاسيكية</strong>: مثير بصري يخلق تناقضاً معرفياً (نفس الموقف / نتيجتان متضادتان) يهيّئ الذهن لاستقبال التعريف القادم بشغف بدل أن يُلقى عليه جافاً.</p>
+        <h4>لماذا هذا المشهد تحديداً</h4>
+        <p>مشهد طابور المدرسة مشهد حياتي يومي حقيقي للمتدربين (لا مثال افتراضي مستورد) — هذا يقصّر المسافة بين "المفهوم النظري" و"تجربتهم الشخصية" فوراً.</p>
+        <h4>عن منصة نبض</h4>
+        <p>نبض منصة تصويت/حائط أفكار خاصة بالمدرّب (نظير بادلت). المتدرّبون يفتحون رابط المشاركة (<code>/p/7ba7z5</code>) بمسح QR من هواتفهم، بينما تعرض الشاشة الرئيسية رابط النتائج الحية (<code>/embed/7ba7z5?view=results</code>).</p>
+        <h4>إذا لم يعمل QR أو الإنترنت</h4>
+        <p>اطلب المشاركة الشفهية بدلاً منها فوراً — لا توقف الإيقاع بسبب مشكلة تقنية. الفكرة أهم من الأداة.</p>
+      `
+    },
+    {
+      n: 5, time: '09:30–12:00', mins: '2.5 دقيقة',
+      title: 'ما هي العقلية؟ — التعريف',
+      tot: 'أنا أعرض — I Do', totColor: 'green',
+      say: [
+        { text: 'العقلية — أو الـ Mindset — هي مجموعة المعتقدات والافتراضات الذهنية التي نستخدمها، غالباً دون أن نشعر، لتفسير كل موقف واتخاذ قرارنا حياله.' },
+        { cue: '[توقف · انظر للجمهور]', text: 'بعبارة أخرى: العقلية نظّارة. لا نرى الواقع كما هو — بل كما تسمح لنا عقليتنا أن نراه. ونفس النظّارة تُشكَّل من تربيتنا وتجاربنا المتكررة — وتعمل تلقائياً، دون أن نضغط زراً واعياً لتشغيلها.' },
+        { cue: '[نبرة تحفيزية]', text: 'والخبر السار: هذه النظّارة ليست مزروعة في دماغك للأبد. يمكن ملاحظتها، ويمكن تبديلها بوعي — وهذا بالضبط ما بنت عليه عالمة النفس كارول دويك أبحاثها الشهيرة.' }
+      ],
+      do: [
+        'اكتب أو اعرض كلمة "نظّارة" بخط كبير أثناء الشرح',
+        'اربط التعريف بإجابات نبض السابقة إن أمكن: "لاحظوا — إجابة الأستاذ/ة فلان كانت قريبة جداً من هذا التعريف"'
+      ],
+      watch: [
+        'تعابير "آها" على الوجوه عند سماع كلمة "نظّارة" — علامة استيعاب جيدة'
+      ],
+      signal: 'والآن دعونا نرى كيف تعمل هذه النظّارة فعلياً — بمقطع قصير',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الاستعارة المركزية "النظّارة"</strong> — كرّرها بنفس اللفظ طوال اليوم كلما أشرت لمفهوم العقلية، فالتكرار المؤثر يرسّخ الصورة الذهنية.</p>
+        <h4>مرجع علمي للمعلم</h4>
+        <p>كارول دويك، أستاذة علم النفس بجامعة ستانفورد، كتاب <em>Mindset: The New Psychology of Success</em> (2006). لا حاجة لذكر تفاصيل أكاديمية للمتدربين — الكتاب مرجعك أنت فقط عند الأسئلة العميقة.</p>
+      `
+    },
+    {
+      n: 6, time: '12:00–15:00', mins: '3 دقائق',
+      title: 'فيديو Higgsfield — العقلية تصنع الرؤية',
+      tot: 'أنا أعرض — I Do', totColor: 'green',
+      say: [
+        { text: 'دعونا نشاهد هذا معاً — مقطع قصير يوضّح كيف تُشكّل عقليتك ما تراه، حتى قبل أن تبدأ التفكير فيه.' },
+        { cue: '[عند تشغيل المقطع — لا تتكلم]', text: '' },
+        { cue: '[بعد انتهاء المقطع]', text: 'هل لاحظتم؟ العقلية لا تفسّر الواقع فقط — بل تختار مسبقاً ما ستراه أصلاً وما ستتجاهله كلياً.' }
+      ],
+      do: [
+        'لا تتكلم أثناء تشغيل المقطع — دع المقطع يتكلم',
+        'راقب من يميل للأمام (المهتم) ومن ينظر لهاتفه (يحتاج جملة تنشيط بعد المقطع مباشرة)'
+      ],
+      watch: [
+        'إن كان المقطع غير جاهز بعد، انتقل مباشرة لجملة الخلاصة الشفهية دون اعتذار مطوّل'
+      ],
+      tips: [
+        '⚠️ هذا الفيديو قيد الإنتاج عبر Higgsfield — إن لم يكن جاهزاً وقت التقديم، اشرح الفكرة شفهياً بجملتين واستمر دون توقف'
+      ],
+      signal: 'والآن — السؤال الأهم: ماذا تفعل هذه النظّارة بالمشكلة نفسها؟',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الاستفهام البلاغي في الختام</strong>: "هل لاحظتم؟" — يُشرك المتدرب في اكتشاف الفكرة بدل تلقّيها.</p>
+        <h4>خطة بديلة إن تعطّل الفيديو</h4>
+        <p>قل: "تخيّلوا معي مشهداً... شخصان يقفان في نفس الغرفة الفارغة. أحدهما يرى 'مساحة مملة'، والآخر يرى 'قماشة فارغة لمشروع جديد'. لم تتغيّر الغرفة — تغيّر ما اختارت عقليتاهما أن تلتفتا إليه" ثم أكمل للشريحة التالية مباشرة.</p>
+      `
+    },
+    {
+      n: 7, time: '15:00–18:00', mins: '3 دقائق',
+      title: 'فرصة أم عائق؟ — قصة صانع الأحذية',
+      tot: 'نناقش — We Do', totColor: 'purple',
+      say: [
+        { cue: '[نبرة قصصية هادئة]', text: 'أروي لكم قصة قصيرة: أرسل صانعُ أحذيةٍ ابنَه إلى قبيلةٍ إفريقية نائية ليكتشف فرصة بيع. عاد الابن محبطاً: "لا سوق هناك أبداً — كلّهم حفاة!"' },
+        { cue: '[توقف درامي قصير]', text: 'فأرسل صانع الأحذية ابنَه الآخر. عاد هذا مبتهجاً: "سوقٌ ضخمة تنتظرنا! كلّهم حفاة!"' },
+        { cue: '[ارفع صوتك قليلاً]', text: 'نفس الجملة بالضبط. نفس الحقيقة. عقليتان متضادتان تماماً. قَدْ يُعَلِّمُ مَن لا يَتَعَلَّم، ولَنْ يَتَعَلَّمَ مَن لا يُعَلَّم — والعقلية الثابتة لا تتعلّم من نفس الحقيقة ما تتعلّمه عقلية النمو.' }
+      ],
+      do: [
+        'اروِ القصة من الذاكرة دون قراءة — النبرة القصصية جزء من التأثير',
+        'اعرض بطاقتي "عائق" و"فرصة" على الشاشة أثناء الرواية'
+      ],
+      watch: [
+        'ابتسامات الاستيعاب عند سماع "كلّهم حفاة" مرتين بمعنيين متضادين'
+      ],
+      signal: 'والآن فكّروا: ما آخر "عائق" واجهتموه؟ هل يخفي فرصة لم تلاحظوها بعد؟',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الطباق</strong> بين "عائق" و"فرصة"، و<strong>الجناس/السجع الخفيف</strong> في «قَدْ يُعَلِّمُ مَن لا يَتَعَلَّم، ولَنْ يَتَعَلَّمَ مَن لا يُعَلَّم» — استخدمها كخاتمة لفظية تُحفظ.</p>
+        <h4>ملاحظة أمانة علمية</h4>
+        <p>هذه القصة مَثَلٌ تعليمي شائع الاستخدام عالمياً في تدريب الابتكار، وليست واقعة تاريخية موثّقة — إن سُئلت، وضّح ذلك ببساطة: "إنها قصة رمزية توضّح الفكرة، لا حادثة موثّقة".</p>
+      `
+    },
+    {
+      n: 8, time: '18:00–19:30', mins: '90 ثانية',
+      title: 'أربع عقليات — خارطة سريعة',
+      tot: 'خارطة المحطة', totColor: 'gray',
+      say: [
+        { text: 'أربع عقليات نلتقيها كل يوم في حياتنا وحياة من حولنا: عقلية النمو، العقلية الثابتة، العقلية الابتكارية، والعقلية الريادية. لكل واحدة نظّارتها الخاصة في رؤية نفس المشكلة — وسنمرّ عليها واحدة واحدة.' }
+      ],
+      do: [
+        'أشر لكل بطاقة بالترتيب دون شرح مطوّل — الشرح التفصيلي في الشرائح التالية'
+      ],
+      signal: 'لنبدأ بالأولى — عقلية النمو',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>التكرار المؤثر لعبارة "نلتقيها كل يوم"</strong> — تؤكد أن هذا ليس مفهوماً أكاديمياً بعيداً بل واقعاً يومياً ملموساً.</p>
+      `
+    },
+    {
+      n: 9, time: '19:30–22:30', mins: '3 دقائق',
+      title: 'عقلية النمو (Growth Mindset)',
+      tot: 'أنا أعرض + مثال', totColor: 'green',
+      say: [
+        { text: 'عقلية النمو: الإيمان بأن القدرات والذكاء يُبنَيان بالجهد والتعلّم — لا يُولدان جاهزَين وثابتين.' },
+        { cue: '[مثال حيّ]', text: 'طالب يرسب في اختبار الرياضيات. صاحب عقلية النمو يقول جملة واحدة سحرية: "لم أُتقن هذا بعد" — ثم يطلب حصة إضافية من معلّمه.' },
+        { cue: '[أكّد على كلمة "بعد"]', text: 'كلمة "بعد" — Yet بالإنجليزية — هي كل الفرق. هي التي تُبقي الباب مفتوحاً بدل أن تُغلقه للأبد.' }
+      ],
+      do: [
+        'اكتب كلمة "بعد" بخط كبير وبارز على الشاشة أو السبورة',
+        'اربط بمثال حقيقي سمعته في تمرين كسر الجليد (شريحة 3) إن أمكن'
+      ],
+      watch: [
+        'من يهزّ رأسه موافقاً عند ذكر "بعد"؟ → اطلب منه لاحقاً مثالاً شخصياً في النقاش'
+      ],
+      signal: 'وعلى النقيض تماماً — عقلية تُغلق الباب بدل أن تفتحه',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الترادف/التدرّج الضمني</strong>: "لم أتقن → أطلب مساعدة → سأتحسّن" — سلسلة أفعال تصاعدية تبني أمل حقيقي.</p>
+        <h4>مرجع للمعلم</h4>
+        <p>كارول دويك، ستانفورد — تجربة كلمة "Yet" الشهيرة في مدارس أمريكية أظهرت تحسّناً ملموساً في مثابرة الطلاب.</p>
+      `
+    },
+    {
+      n: 10, time: '22:30–25:30', mins: '3 دقائق',
+      title: 'العقلية الثابتة (Fixed Mindset)',
+      tot: 'أنا أعرض + مقابلة', totColor: 'amber',
+      say: [
+        { text: 'وعلى النقيض — العقلية الثابتة: الاعتقاد بأن الذكاء والموهبة صفات فطرية لا تتغيّر مهما فعلنا.' },
+        { cue: '[نفس المثال بالضبط — أكّد التطابق]', text: 'نفس الطالب، نفس الرسوب في نفس الاختبار — لكن هذه المرة يقول: "أنا لست بارعاً في الرياضيات أصلاً" — ثم يتجنّب المادة كلياً بعدها.' },
+        { cue: '[نبرة تحذيرية هادئة]', text: 'لاحظوا الخطر: هذا الاعتقاد يُنتج ما يُسمّى "النبوءة ذاتية التحقق" — يتجنّب المادة، فلا يتمرّن، فيبقى ضعيفاً فيها، فيظن أن اعتقاده الأول كان صحيحاً — بينما السبب الحقيقي كان غياب المحاولة لا غياب القدرة.' }
+      ],
+      do: [
+        'استخدم نفس مثال الرسوب بالضبط من الشريحة السابقة لتُبرز المقابلة بوضوح',
+        'اعرض الجدول المقارن (بطاقتي c2x2) على الشاشة أثناء الشرح'
+      ],
+      watch: [
+        'هل يعترف أحدهم بصوت مسموع أن هذا نمط تفكيره في مادة معينة؟ → استقبله بترحيب لا بحكم: "شجاعة منك أن تقولها — وهذا أول خطوة لتغييرها"'
+      ],
+      tips: [
+        '💡 لا تُشعر أي مشارك أن اعترافه بعقلية ثابتة "عيب" — بل طبيعي وقابل للتغيير فوراً'
+      ],
+      signal: 'قَبْلَ التقنية والنظرية — سؤالٌ يستحق التوقف عنده: أيّ العقليتين أقرب لك في مادة تخشاها؟',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>المقابلة الكاملة</strong> بين هذه الشريحة والسابقة: نفس الموقف (الرسوب) بجملتين متقابلتين تماماً ("لم أتقن بعد" مقابل "لست بارعاً أصلاً") — هذا التصميم المتعمّد هو جوهر أسلوب "المقابلة" البلاغي.</p>
+        <h4>تحذير مهم للمقدّم</h4>
+        <p>لا أحد يملك عقلية ثابتة أو نامية بشكل مطلق دائماً — أغلب الناس يتنقلون بينهما حسب المجال. وضّح هذا إن استشعرت أن أحدهم بدأ "يصنّف نفسه" بشكل سلبي دائم.</p>
+      `
+    },
+    {
+      n: 11, time: '25:30–28:00', mins: '2.5 دقيقة',
+      title: 'العقلية الابتكارية (Innovative Mindset)',
+      tot: 'أنا أعرض + مثال', totColor: 'purple',
+      say: [
+        { text: 'العقلية الثالثة: العقلية الابتكارية — رؤية الأشياء من زاوية جديدة، وربط أفكار متباعدة لحلّ مشكلة بطريقة غير مألوفة.' },
+        { cue: '[مثال]', text: 'طالب مشروعه المدرسي "فشل" ولم ينجح كما خُطط له. صاحب العقلية الابتكارية لا يرمي المشروع في الأرشيف — بل يسأل: كيف أحوّل هذا الفشل نفسه إلى فكرة جديدة؟ فيحوّله إلى تطبيق بسيط يحلّ مشكلة أخرى، مثل ازدحام المقصف.' },
+        { text: 'كما قال ألبرت أينشتاين: "لا يمكننا حلّ مشكلاتنا بنفس طريقة التفكير التي أوجدتها".' }
+      ],
+      do: [
+        'اربط هذه الشريحة بمثال "صانع الأحذية" السابق: "تذكرون؟ نفس المبدأ — زاوية نظر مختلفة"'
+      ],
+      signal: 'وصلنا نصف الطريق — من زال معي؟ العقلية الرابعة تحوّل الفكرة إلى شيء حقيقي',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الربط القصصي بالرسائل السابقة</strong> ("تذكرون؟") — يُبقي اليوم متماسكاً كقصة واحدة لا شرائح منفصلة.</p>
+        <h4>جسر لليوم الثالث</h4>
+        <p>هذه العقلية بالذات هي التي سنعمّقها بأدوات عملية في اليوم الثالث (الإبداع) — لا داعٍ للتفصيل الآن، فقط اذكر الوعد الضمني.</p>
+      `
+    },
+    {
+      n: 12, time: '28:00–30:30', mins: '2.5 دقيقة',
+      title: 'العقلية الريادية (Entrepreneurial Mindset)',
+      tot: 'أنا أعرض + مثال', totColor: 'red',
+      say: [
+        { text: 'والرابعة: العقلية الريادية — اكتشاف الفرص، وتحمّل المخاطرة المحسوبة، وتحويل الفكرة إلى قيمة فعلية ملموسة.' },
+        { cue: '[نبرة إعجاب]', text: 'ومن أجمل الأمثلة على هذه العقلية في تاريخنا: السيدة خديجة بنت خويلد رضي الله عنها. أدارت تجارة رابحة بين مكة والشام، وبنت ثقتها على الجودة والصدق في زمن كانت فيه التجارة محفوفة بمخاطر حقيقية — بل هي من بادرت بالاستثمار في تجارة النبي محمد ﷺ قبل البعثة بناءً على سمعته في الأمانة.' }
+      ],
+      do: [
+        'اذكر المثال باحترام وإجلال يليق بمقام السيدة خديجة رضي الله عنها',
+        'أكّد أن هذا مثال تاريخي موثّق في السيرة، لا مجرد قصة رمزية كالسابقة'
+      ],
+      signal: 'أربع عقليات رأيناها — والآن: أيّها تحكمك أكثر؟',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الاستشهاد بالسيرة النبوية</strong> كدليل تاريخي حقيقي (لا قصة رمزية) — يمنح الرسالة ثقلاً وقدسية إضافية، ويربط الابتكار بالهوية والقيم لا فقط بالمهارة العملية.</p>
+        <h4>الفرق بين هذه العقلية والسابقة (للمعلم)</h4>
+        <p>الابتكارية تُنتج الفكرة؛ الريادية تسأل "هل يستحق الأمر مخاطرة وقتي أو مالي؟". هذا الفرق سيُبنى عليه اليوم الخامس (الابتكار) لاحقاً.</p>
+      `
+    },
+    {
+      n: 13, time: '30:30–33:30', mins: '3 دقائق',
+      title: 'مقارنة الأربع عقليات + نقاش',
+      tot: 'نناقش — We Do', totColor: 'purple',
+      say: [
+        { cue: '[اعرض الجدول الملخّص]', text: 'انظروا الآن للأربع عقليات معاً أمام نفس السؤال: "لم أتقنه بعد" (نمو) · "لست بارعاً فيه" (ثابتة) · "ماذا لو ربطته بغيره؟" (ابتكارية) · "هل يوجد سوق لهذا؟" (ريادية).' },
+        { cue: '[سؤال مباشر للجميع]', text: 'فكّروا ثلاثين ثانية بصمت: أيّ عقلية تحكم قرارك الأكثر أمام مشروع مدرسي صعب؟ ثم ناقشوا مع من بجانبكم — هل تريدون تقوية عقلية أخرى؟' }
+      ],
+      do: [
+        'التزم بالصمت الفردي 30 ثانية فعلياً قبل النقاش الثنائي',
+        'اجمع 2-3 إجابات شفهية بعد النقاش الثنائي'
+      ],
+      watch: [
+        'هل تتكرر إجابة "الثابتة" بصراحة من أكثر من شخص؟ → طمئن الجميع أن هذا شائع جداً ويمكن تغييره بالتدريب — وهذا بالضبط ما تبنيه الأنماط الخمسة القادمة'
+      ],
+      signal: 'الآن نعرف "ماذا" نريد أن نكون — الأنماط الخمسة القادمة تجيب عن "كيف"',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>التوازي اللفظي (Parallelism)</strong> في الجمل الأربع المتتالية — كل جملة بنفس الصيغة التقريبية لتسهيل الحفظ والمقارنة الذهنية السريعة.</p>
+      `
+    },
+    {
+      n: 14, time: '33:30–35:00', mins: '90 ثانية',
+      title: 'الأنماط الخمسة — خارطة',
+      tot: 'خارطة المحطة', totColor: 'gray',
+      say: [
+        { text: 'العقلية الابتكارية تحديداً — التي رأيناها قبل قليل — ليست موهبة نُولد بها أو نُحرم منها. إنها خمس عادات ذهنية قابلة للتدريب: الفضول، تحدّي الافتراضات، التجريب، التعلّم من الفشل، والتكيّف. سنمرّ على كل واحدة بقصة تُخلّدها في ذاكرتكم.' }
+      ],
+      do: [
+        'أشر لكل نمط بالترتيب سريعاً دون شرح — الشرح في الشرائح القادمة'
+      ],
+      signal: 'ولنبدأ بأقدمها وأبسطها — الفضول',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>النفي ثم الإثبات</strong>: "ليست موهبة... إنها خمس عادات" — أسلوب تأكيدي قوي يرفع الحاجز النفسي "أنا لست مبدعاً بالفطرة".</p>
+      `
+    },
+    {
+      n: 15, time: '35:00–37:30', mins: '2.5 دقيقة',
+      title: 'النمط الأول: الفضول',
+      tot: 'أنا أعرض + قصة', totColor: 'teal',
+      say: [
+        { text: 'الفضول: طرح الأسئلة باستمرار، وعدم الاكتفاء بالإجابة الجاهزة الأولى.' },
+        { cue: '[قصة]', text: 'العالم المسلم ابن الهيثم عاش في زمن كانت الإجابة السائدة فيه: "العين تُصدر شعاعاً يُبصر به". لم يقبل ابن الهيثم هذه الإجابة الجاهزة، فصمّم تجارب دقيقة استغرقت سنوات — حتى أثبت العكس تماماً: أن الضوء ينعكس من الأشياء ليدخل العين. من هذا الفضول وُلد علم البصريات الحديث.' },
+        { text: 'وقولته الخالدة: "الحقّ يُطلب لذاته".' }
+      ],
+      do: [
+        'اروِ القصة بنبرة إعجاب حقيقي بابن الهيثم',
+        'اربط بتقنية عملية: "اسألوا لماذا خمس مرات متتالية على نفس المشكلة"'
+      ],
+      signal: 'الفضول يسأل "لماذا؟" — والنمط التالي يسأل سؤالاً أجرأ: "من قال ذلك؟"',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الاقتباس الختامي القوي</strong> "الحقّ يُطلب لذاته" — استخدمه كجملة تُحفظ، كرّرها إن أمكن في خلاصة اليوم.</p>
+        <h4>أمانة علمية</h4>
+        <p>ابن الهيثم (965–1040م) صاحب كتاب "المناظر"، ويُعدّ مؤسس المنهج التجريبي في البصريات — معلومة تاريخية موثقة، لا حاجة للمبالغة فيها.</p>
+      `
+    },
+    {
+      n: 16, time: '37:30–40:00', mins: '2.5 دقيقة',
+      title: 'النمط الثاني: تحدّي الافتراضات',
+      tot: 'أنا أعرض + قصة', totColor: 'amber',
+      say: [
+        { text: 'النمط الثاني: تحدّي الافتراضات — التساؤل عن المسلَّمات التي يقبلها الجميع دون نقاش.' },
+        { cue: '[نبرة خاشعة — استشهاد قرآني]', text: 'وأعظم مثال على هذا في تاريخ البشرية: نبي الله إبراهيم عليه السلام، حين واجه قومه بسؤال بسيط لكنه زلزل مُسلّمة توارثوها عن آبائهم: ﴿ فَقَالَ أَتَعْبُدُونَ مَا تَنْحِتُونَ ﴾ — سورة الصافات، آية 95.' },
+        { text: 'قومه لم يسألوا أنفسهم أصلاً هل يستحق ما نحتته أيديهم العبادة — لأنها كانت مسلّمة موروثة. سؤال إبراهيم عليه السلام البسيط كشف هشاشتها فوراً.' }
+      ],
+      do: [
+        'اقرأ الآية بتجويد صحيح ووقار',
+        'اربط بتقنية عملية: "اكتبوا قائمة بكل (مسلّمة) في مجالكم، واسألوا: من قال ذلك؟"'
+      ],
+      watch: [
+        'تفاعل جاد مع الاستشهاد القرآني — قد يخلق لحظة تأمل صامتة، لا تتعجل كسرها'
+      ],
+      signal: 'الفضول يسأل، وتحدّي الافتراضات يشكّك — والنمط الثالث لا يكتفي بالسؤال، بل يجرّب',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الاستشهاد القرآني كذروة الشريحة</strong> — احترم وقفة الصمت بعد تلاوة الآية قبل الانتقال، فهذا يمنحها وزنها الحقيقي.</p>
+        <h4>أمانة النقل</h4>
+        <p>الآية من سورة الصافات (95)، في سياق مواجهة إبراهيم عليه السلام لقومه حول عبادة الأصنام — تأكد من صحة رسمها ونسبتها عند إعداد الشريحة المرئية.</p>
+      `
+    },
+    {
+      n: 17, time: '40:00–42:30', mins: '2.5 دقيقة',
+      title: 'النمط الثالث: التجريب',
+      tot: 'أنا أعرض + قصة', totColor: 'purple',
+      say: [
+        { text: 'النمط الثالث: التجريب — تجربة أفكار صغيرة بسرعة وبتكلفة منخفضة، بدل انتظار الفكرة الكاملة المثالية.' },
+        { cue: '[قصة]', text: 'توماس إديسون جرّب آلاف المواد المختلفة قبل أن يصل لمصباح كهربائي عملي. حين سُئل عن هذا "الفشل" المتكرر، أجاب بثقة: "لم أفشل، بل اكتشفت عشرة آلاف طريقة لا تصلح".' }
+      ],
+      do: [
+        'اطرح سؤالاً تفاعلياً: "فكرة عندك الآن — ما أصغر تجربة يمكنك فعلها اليوم لاختبارها؟"',
+        'اقبل 1-2 إجابات شفهية سريعة'
+      ],
+      signal: 'لكن ماذا لو جرّبنا وفشلنا؟ هذا بالضبط النمط الرابع',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>التضاد اللفظي الذكي</strong> في مقولة إديسون: "لم أفشل / اكتشفت" — إعادة تأطير لفظية تحوّل الفشل إلى إنجاز بجملة واحدة.</p>
+      `
+    },
+    {
+      n: 18, time: '42:30–45:30', mins: '3 دقائق',
+      title: 'النمط الرابع: التعلّم من الفشل',
+      tot: 'أنا أعرض + قصة', totColor: 'red',
+      say: [
+        { cue: '[نبرة هادئة ووقورة — حديث شريف]', text: 'يقول النبي ﷺ: "إِذَا حَكَمَ الْحَاكِمُ فَاجْتَهَدَ ثُمَّ أَصَابَ فَلَهُ أَجْرَانِ، وَإِذَا حَكَمَ فَاجْتَهَدَ ثُمَّ أَخْطَأَ فَلَهُ أَجْرٌ وَاحِدٌ" — متفق عليه.' },
+        { text: 'الاجتهاد الصادق مأجورٌ حتى لو أخطأ صاحبه — فكيف بمن يحاول ابتكار حلّ جديد لمشكلة حقيقية؟ الفشل بعد محاولة صادقة ليس عاراً — إنه جزء متوقَّع من الطريق.' },
+        { cue: '[مثال معاصر]', text: 'رُفضت رواية "هاري بوتر" من دور نشر عديدة قبل أن تُنشر وتصبح من أكثر الروايات مبيعاً في التاريخ.' }
+      ],
+      do: [
+        'اذكر تخريج الحديث بدقة: متفق عليه (البخاري ومسلم) — عن عمرو بن العاص رضي الله عنه',
+        'وضّح بجملة أن الحديث أصله في الاجتهاد الفقهي، ومبدأه العام ينطبق على أي اجتهاد صادق'
+      ],
+      tips: [
+        '⚠️ التزم بدقة النقل — لا تُقوّل الحديث ما لا يحتمله، واكتفِ بأن "مبدأه العام" ينطبق دون ادّعاء نص خاص بالابتكار'
+      ],
+      signal: 'لكن التعلّم من الفشل يحتاج مهارة أخيرة — أن تتحرّك بسرعة حين يتغيّر كل شيء',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الاستشهاد النبوي كدليل شرعي موثوق</strong> — أقوى أدلة الرسالة في اليوم كله. اقرأه بتمهّل ووقار، فهو الذروة العاطفية والفكرية لهذا النمط.</p>
+        <h4>أمانة علمية دقيقة</h4>
+        <p>الحديث في: صحيح البخاري (رقم 7352) وصحيح مسلم (رقم 1716)، عن عمرو بن العاص رضي الله عنه، في سياق اجتهاد الحاكم الشرعي. استخدامه هنا هو تطبيق لمبدئه العام (أجر الاجتهاد الصادق حتى مع الخطأ) على سياق تربوي جديد — لا نسبة نص خاص بالابتكار للحديث.</p>
+      `
+    },
+    {
+      n: 19, time: '45:30–48:00', mins: '2.5 دقيقة',
+      title: 'النمط الخامس: التكيّف',
+      tot: 'أنا أعرض + قصة', totColor: 'green',
+      say: [
+        { text: 'النمط الخامس والأخير: التكيّف — تعديل الخطة بسرعة عند تغيّر الظروف، بدل التمسّك بها عناداً.' },
+        { cue: '[قصة من السيرة]', text: 'في غزوة الخندق، اقترح الصحابي سلمان الفارسي رضي الله عنه فكرة لم يعرفها العرب من قبل: حفر خندق حول المدينة — فكرة استعارها من بيئته الفارسية وكيّفها للظرف الجديد. فتبنّاها النبي ﷺ فوراً رغم أنها غير مألوفة، وكانت سبباً رئيساً في النصر.' },
+        { cue: '[أكّد على الدرس المزدوج]', text: 'هنا درسان معاً: سلمان لم يتردد في اقتراح فكرة "غريبة"، والنبي ﷺ وكبار الصحابة لم يترددوا في تغيير الخطة التقليدية فوراً لأن الظرف تغيّر.' }
+      ],
+      do: [
+        'اربط بوضوح أن هذا النمط يجمع كل الأنماط السابقة (فضول لملاحظة التغيّر، تحدٍّ للخطة القديمة، تجريب لحلّ جديد، قبول احتمال الخطأ)'
+      ],
+      signal: 'خمسة أنماط رأيناها اليوم — والآن وقت التطبيق العملي',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>التدرّج الختامي</strong>: اذكر الأنماط الخمسة بترتيبها التصاعدي وأنت تربط هذا النمط بها كخاتمة تجمعها كلها — "شرارة الفضول → تحدّي الافتراض → تجربة الحل → تعلّم من الخطأ → تكيّف مع الجديد".</p>
+        <h4>أمانة تاريخية</h4>
+        <p>غزوة الخندق (5هـ) وواقعة اقتراح سلمان الفارسي رضي الله عنه لحفر الخندق موثّقة في كتب السيرة النبوية المعتمدة (كسيرة ابن هشام).</p>
+      `
+    },
+    {
+      n: 20, time: '48:00–53:00', mins: '5 دقائق',
+      title: 'نشاط تطبيقي — شخّص عقليتك',
+      tot: 'نطبّق — You Do', totColor: 'blue',
+      say: [
+        { text: 'حان وقت التطبيق الحقيقي. اختاروا مشكلة حقيقية تواجهونها الآن — دراسية أو شخصية أو في مشروع. حدّدوا: أيّ عقلية من الأربع تحكم ردّة فعلكم تجاهها الآن؟ ثم اختاروا نمطاً واحداً من الأنماط الخمسة وطبّقوه على هذه المشكلة الآن في جملتين فقط.' },
+        { cue: '[بعد 3 دقائق كتابة فردية]', text: 'من يتطوّع بمشاركة ما كتبه معنا؟' }
+      ],
+      do: [
+        'أعطِ 3 دقائق كتابة فردية فعلية دون مقاطعة',
+        'اطلب 2-3 متطوعين فقط — لا تُطل الجولة أكثر من دقيقة لكل مشاركة'
+      ],
+      watch: [
+        'من يكتب بصمت وتركيز شديد؟ → غالباً وجد مشكلة حقيقية تلامسه، اطلب منه لاحقاً كمثال إن قَبِل'
+      ],
+      signal: 'أمثلة رائعة ومختلفة تماماً — هذا بالضبط ما نريده: تطبيق شخصي لا نظرية عامة',
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>الانتقال من الجمعي إلى الفردي</strong>: بعد يوم كامل من الأمثلة العامة، هذه أول لحظة يُطلب فيها من كل متدرب تطبيقاً شخصياً حقيقياً — احترم جدّية هذه اللحظة بصمت حقيقي أثناء الكتابة.</p>
+      `
+    },
+    {
+      n: 21, time: '53:00–56:00', mins: '3 دقائق',
+      title: 'الخلاصة والختام',
+      tot: 'الخلاصة والختام', totColor: 'amber',
+      say: [
+        { cue: '[نبرة تلخيصية واثقة]', text: 'دعونا نُلخّص رحلتنا اليوم في ثلاث جمل: العقلية نظّارة تحدّد ما نراه في كل مشكلة — فرصة أو عائق. أربع عقليات نلتقيها كل يوم: النمو، الثابتة، الابتكارية، الريادية. وخمسة أنماط تفكير تبني عقلية ابتكارية: الفضول، تحدّي الافتراضات، التجريب، التعلّم من الفشل، والتكيّف.' },
+        { cue: '[نبرة تأمّلية]', text: 'ما أخذتموه اليوم يستحقّ الحياة إن طُبِّق، ولا يستحقّ شيئاً إن رُفَّ على الرفّ.' },
+        { cue: '[اطلب منهم تعبئة بطاقة الالتزام على الشاشة]', text: 'قبل أن نلتقي في اليوم الثاني — الفكرة — أريد منكم التزاماً محدداً: أي نمط ستتدربون عليه، أمام أي مشكلة، وخلال كم يوماً؟' },
+        { cue: '[ختام]', text: 'اللَّهُمَّ اجْعَلْ ما تَعَلَّمْناه اليَوْمَ حُجَّةً لَنا لا عَلَيْنا. أستودعكم الله، وإلى اللقاء في اليوم الثاني — الفكرة — حين نحوّل هذه العقلية إلى أول أداة عملية. شكراً لإصغائكم الكريم.' }
+      ],
+      do: [
+        'اطلب من كل متدرب تعبئة بطاقة الالتزام الثلاثية قبل المغادرة',
+        'ذكّرهم بكلماتهم الثلاث من تمرين كسر الجليد (شريحة 3) واسأل: "هل تغيّرت هذه الكلمات الآن بعد اليوم؟"',
+        'وزّع الشهادات أو وجّههم لزر "احصل على شهادتك" في الصفحة'
+      ],
+      tips: [
+        '💡 الجملة الأخيرة هي ما سيتذكرونه — قلها بصدق وبطء، لا بسرعة الخاتمة الروتينية'
+      ],
+      notes: `
+        <h4>المحسّن المستخدم</h4>
+        <p><strong>التكرار المؤثر</strong> في تلخيص الثلاث جمل بنفس بنية الشرائح الأصلية (نظّارة / أربع عقليات / خمسة أنماط)، و<strong>السجع الختامي</strong> في "يستحق الحياة إن طُبِّق، ولا يستحق شيئاً إن رُفَّ على الرفّ"، و<strong>الدعاء</strong> كخاتمة روحانية تليق بجمهور عربي مسلم.</p>
+        <h4>الجسر لليوم الثاني (للمعلم — تذكير شخصي)</h4>
+        <p>اليوم الثاني (الفكرة) سيبني مباشرة على مفهوم "العقلية ترى الفجوة كفرصة" — تأكد من تذكير المتدربين بهذا الربط عند افتتاح اليوم الثاني إن استمرت الحقيبة على أيام متتالية.</p>
+      `
+    }
+  ],
+
+  /* ===== TROUBLESHOOTING ===== */
+  troubleshooting: [
+    { problem: 'الفيديو (Higgsfield) لم يُنتَج بعد', solution: 'اشرح فكرة "النظّارة الذهنية" شفهياً بمثال الغرفة الفارغة (انظر ملاحظات الشريحة 6) وأكمل دون توقف' },
+    { problem: 'نبض غير متاح وقت التقديم (إنترنت/خادم)', solution: 'اطلب المشاركة شفهياً أو برفع الأيدي بدل الكتابة — لا تتوقف بسبب الأداة' },
+    { problem: 'لا يستجيب أحد', solution: 'سمِّ شخصاً بالاسم بلطف: "يا [اسم]، ما رأيك أنت؟"' },
+    { problem: 'تجاوز الوقت في شريحة الأنماط الخمسة (15–19)', solution: 'قلّص كل قصة إلى جملتين فقط، واحتفظ بالاستشهاد الديني كاملاً دون اختصار' },
+    { problem: 'مشارك يصنّف نفسه بعقلية ثابتة بإحباط', solution: '"شجاعة منك أن تقولها بصراحة — وهذا أول خطوة لتغييرها. لم تتقنها بعد فقط"' },
+    { problem: 'المشاركة ضعيفة عموماً', solution: 'اطرح سؤالاً مغلقاً (نعم/لا) أولاً، ثم انتقل للسؤال المفتوح' }
+  ],
+
+  /* ===== FOLLOWUP ===== */
+  followup: [
+    {
+      stage: 'خلال 24 ساعة',
+      items: [
+        'أرسل رسالة جماعية بملخّص الأنماط الخمسة (الفضول، تحدّي الافتراضات، التجريب، التعلّم من الفشل، التكيّف)',
+        'أرفق صورة بطاقة الالتزام لكل متدرب إن جُمعت رقمياً',
+        'أرسل شكراً شخصياً لمن شارك بفاعلية'
+      ]
+    },
+    {
+      stage: 'بعد يومين إلى ثلاثة',
+      items: [
+        'ذكّر بالتزام كل متدرب المكتوب في نهاية اليوم الأول',
+        'اسأل: "أي نمط جرّبته على مشكلتك؟ بماذا خرجت؟"',
+        'اجمع الردود لاستخدامها كأمثلة حية في اليوم الثاني (الفكرة)'
+      ]
+    },
+    {
+      stage: 'قبل اليوم الثاني',
+      items: [
+        'حضّر الجسر: "اليوم الأول ضبطنا العقلية التي ترى المشكلة فرصة — اليوم الثاني نحوّل هذه الفرصة لفكرة واضحة"',
+        'راجع ملاحظات "الأنماط الخمسة" لدمجها في أمثلة اليوم الثاني عند الحاجة'
+      ]
+    }
+  ],
+
+  /* ===== RESOURCES ===== */
+  resources: [
+    { label: 'كتاب Mindset — كارول دويك', url: 'https://www.penguinrandomhouse.com/books/44330/mindset-by-carol-s-dweck-phd/' },
+    { label: 'The Innovator\'s DNA — كريستنسن وآخرون', url: 'https://www.innovatorsdna.com/' },
+    { label: 'نبض (منصة التصويت والحوائط الخاصة بالمدرّب)', url: 'https://nabdh.mohd-alhadhrami.com' },
+    { label: 'Higgsfield (إنتاج الفيديو)', url: 'https://higgsfield.ai' }
+  ]
+};
+
+/* =====================================================
+   PASSWORD LOCK
+   ===================================================== */
+const lockForm  = document.getElementById('lockForm');
+const lockInput = document.getElementById('lockInput');
+const lockError = document.getElementById('lockError');
+const lockWrap  = document.getElementById('lockWrap');
+const app       = document.getElementById('app');
+
+function unlock() {
+  lockWrap.style.display = 'none';
+  app.classList.add('active');
+  buildAll();
+  try { sessionStorage.setItem('mt_trainer_unlocked', '1'); } catch(e) {}
+}
+function lock() {
+  app.classList.remove('active');
+  lockWrap.style.display = 'grid';
+  lockInput.value = '';
+  lockError.textContent = '';
+  try { sessionStorage.removeItem('mt_trainer_unlocked'); } catch(e) {}
+  setTimeout(() => lockInput.focus(), 50);
+}
+
+lockForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const val = lockInput.value.trim();
+  if (val === TRAINER_PASSWORD) {
+    lockError.textContent = '';
+    unlock();
+  } else {
+    lockError.textContent = 'كلمة المرور غير صحيحة. حاول مجدداً.';
+    lockInput.value = '';
+    lockInput.focus();
+  }
+});
+
+// Auto-unlock within same browser session
+(() => {
+  let unlocked = false;
+  try { unlocked = sessionStorage.getItem('mt_trainer_unlocked') === '1'; } catch(e) {}
+  if (unlocked) unlock();
+})();
+
+/* =====================================================
+   BUILD ALL
+   ===================================================== */
+function buildAll() {
+  buildTimeline();
+  buildScripts();
+  buildTroubleshooting();
+  buildFollowup();
+  buildResources();
+  attachScrollSpy();
+  // Default: show first slide's notes
+  if (TRAINER.scripts.length) renderNotes(0);
+}
+
+/* ---- Timeline ---- */
+function buildTimeline() {
+  const track = document.getElementById('timelineTrack');
+  track.innerHTML = '';
+  TRAINER.scripts.forEach((s, i) => {
+    const pill = document.createElement('button');
+    pill.className = 'tl-pill';
+    pill.dataset.idx = i;
+    pill.innerHTML = `
+      <div class="tl-num">S${s.n}</div>
+      <div class="tl-time">${s.time}</div>
+      <div class="tl-mins">${s.mins}</div>
+    `;
+    pill.addEventListener('click', () => {
+      const target = document.querySelector(`.scard[data-idx="${i}"]`);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      renderNotes(i);
+    });
+    track.appendChild(pill);
+  });
+}
+
+/* ---- Scripts ---- */
+function buildScripts() {
+  const mount = document.getElementById('scriptsMount');
+  mount.innerHTML = '';
+  TRAINER.scripts.forEach((s, i) => {
+    const card = document.createElement('article');
+    card.className = 'scard';
+    card.dataset.idx = i;
+    card.id = `slide-${s.n}`;
+
+    let inner = `
+      <header class="scard-head">
+        <div class="scard-num">${s.n}</div>
+        <div class="scard-title">${escapeHTML(s.title)}</div>
+        <div class="scard-time">${s.time}</div>
+        ${s.tot ? `<div class="scard-tot">🏷 ${escapeHTML(s.tot)}</div>` : ''}
+      </header>
+      <div class="scard-body">
+    `;
+
+    if (s.browser) {
+      inner += `<a class="browser-link" href="${s.browser.startsWith('http') ? s.browser : '#'}" target="_blank" rel="noopener">🌐 ${escapeHTML(s.browser)}</a>`;
+    }
+
+    // SAY
+    if (s.say && s.say.length) {
+      inner += `<div class="sec"><div class="sec-h say">🗣 ما تقوله</div>`;
+      s.say.forEach(q => {
+        inner += `<div class="quote">${q.cue ? `<span class="cue">${escapeHTML(q.cue)}</span>` : ''}${escapeHTML(q.text).replace(/\n/g, '<br>')}</div>`;
+      });
+      inner += `</div>`;
+    }
+
+    // DO
+    if (s.do && s.do.length) {
+      inner += `<div class="sec"><div class="sec-h do">✋ ما تفعله</div><ul class="do-list">`;
+      s.do.forEach(d => { inner += `<li>${escapeHTML(d)}</li>`; });
+      inner += `</ul></div>`;
+    }
+
+    // ACTIONS (code-style)
+    if (s.actions) {
+      inner += `<div class="sec"><div class="sec-h actions">⚙️ خطوات تنفيذية</div><div class="actions-box">${escapeHTML(s.actions)}</div></div>`;
+    }
+
+    // WATCH
+    if (s.watch && s.watch.length) {
+      inner += `<div class="sec"><div class="sec-h watch">👁 ما تراقبه</div><ul class="watch-list">`;
+      s.watch.forEach(w => { inner += `<li>${escapeHTML(w)}</li>`; });
+      inner += `</ul></div>`;
+    }
+
+    // TIPS
+    if (s.tips && s.tips.length) {
+      inner += `<div class="sec"><div class="sec-h tips">💡 نقاط مهمة للمُيسِّر</div><ul class="tips-list">`;
+      s.tips.forEach(t => { inner += `<li>${escapeHTML(t)}</li>`; });
+      inner += `</ul></div>`;
+    }
+
+    // KAHOOT Qs
+    if (s.kahoot && s.kahoot.length) {
+      inner += `<div class="sec"><div class="sec-h tips">🎮 أسئلة Kahoot المقترحة</div><ol class="qa-list">`;
+      s.kahoot.forEach(q => {
+        inner += `<li><div class="qa-q">${escapeHTML(q.q)}</div><ul class="qa-a">`;
+        q.a.forEach(a => {
+          inner += `<li class="${a.ok ? 'correct' : 'wrong'}">${escapeHTML(a.text)}</li>`;
+        });
+        inner += `</ul></li>`;
+      });
+      inner += `</ol></div>`;
+    }
+
+    // TIMING detail
+    if (s.timingDetail) {
+      inner += `<div class="sec"><div class="sec-h actions">⏱ تفصيل التوقيت</div><div class="timing-detail">${escapeHTML(s.timingDetail)}</div></div>`;
+    }
+
+    // WARN
+    if (s.warn) {
+      inner += `<div class="sec"><div class="sec-h warn">⚠️ خطة بديلة</div><div class="warn-box">${escapeHTML(s.warn)}</div></div>`;
+    }
+
+    // SIGNAL
+    if (s.signal) {
+      inner += `<div class="sec"><div class="sec-h signal">↪ إشارة الانتقال</div><div class="signal-line">"${escapeHTML(s.signal)}"</div></div>`;
+    }
+
+    inner += `</div>`;
+    card.innerHTML = inner;
+    mount.appendChild(card);
+  });
+}
+
+/* ---- Notes side panel ---- */
+function renderNotes(idx) {
+  const s = TRAINER.scripts[idx];
+  if (!s) return;
+  const html = s.notes
+    ? s.notes
+    : `<p style="color: var(--ink-mute);">لا توجد ملاحظات إضافية لهذه الشريحة.</p>`;
+  document.getElementById('notesBody').innerHTML = `
+    <div style="color: var(--ink-mute); font-size: 12px; margin-bottom: 8px;">
+      الشريحة ${s.n} · ${s.time}
+    </div>
+    <div style="color: var(--ink); font-weight: 800; font-size: 15px; margin-bottom: 14px;">
+      ${escapeHTML(s.title)}
+    </div>
+    ${html}
+  `;
+  // Update active timeline pill
+  document.querySelectorAll('.tl-pill').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+  // Highlight current script card
+  document.querySelectorAll('.scard').forEach((c, i) => {
+    c.classList.toggle('is-current', i === idx);
+  });
+}
+
+/* ---- Scroll spy ---- */
+function attachScrollSpy() {
+  const cards = document.querySelectorAll('.scard');
+  if (!('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    let bestIdx = -1, bestRatio = 0;
+    entries.forEach(en => {
+      if (en.intersectionRatio > bestRatio) {
+        bestRatio = en.intersectionRatio;
+        bestIdx = +en.target.dataset.idx;
+      }
+    });
+    if (bestIdx >= 0) renderNotes(bestIdx);
+  }, { rootMargin: '-30% 0px -50% 0px', threshold: [0, .25, .5, .75, 1] });
+  cards.forEach(c => observer.observe(c));
+}
+
+/* ---- Troubleshooting ---- */
+function buildTroubleshooting() {
+  const mount = document.getElementById('troubleshootingMount');
+  mount.innerHTML = TRAINER.troubleshooting.map(t =>
+    `<div class="ts-row"><div class="pb">المشكلة: ${escapeHTML(t.problem)}</div><div class="sl">الحل: ${escapeHTML(t.solution)}</div></div>`
+  ).join('');
+}
+
+/* ---- Followup ---- */
+function buildFollowup() {
+  const mount = document.getElementById('followupMount');
+  mount.innerHTML = TRAINER.followup.map(f =>
+    `<div class="fu-stage"><h5>${escapeHTML(f.stage)}</h5><ul>${f.items.map(i => `<li>${escapeHTML(i)}</li>`).join('')}</ul></div>`
+  ).join('');
+}
+
+/* ---- Resources ---- */
+function buildResources() {
+  const mount = document.getElementById('resourcesMount');
+  mount.innerHTML = TRAINER.resources.map(r =>
+    `<div class="res-row"><span class="res-l">${escapeHTML(r.label)}</span><a href="${r.url}" target="_blank" rel="noopener">${escapeHTML(r.url.replace(/^https?:\/\//, ''))}</a></div>`
+  ).join('');
+}
+
+/* ---- Helpers ---- */
+function escapeHTML(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* =====================================================
+   TOP-BAR BUTTONS
+   ===================================================== */
+document.getElementById('toggleNotesBtn').addEventListener('click', () => {
+  document.getElementById('mainGrid').classList.toggle('notes-hidden');
+});
+document.getElementById('printBtn').addEventListener('click', () => {
+  window.print();
+});
+document.getElementById('lockBtn').addEventListener('click', () => {
+  if (confirm('قفل الدليل والخروج؟')) lock();
+});
+</script>
+</body>
+</html>
